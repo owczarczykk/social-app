@@ -24,8 +24,7 @@ const Navbar = () => {
   const alt = theme.palette.background.alt;
 
   const user = useSelector((state) => state.user);
-  // const fullName = `${user.firstName} ${user.lastName}`;
-  const fullName = "User full name";
+  const fullName = `${user.name} ${user.lastName}`;
 
   return (
     <FlexBetween padding="1rem 6%" backgroundColor={alt}>
