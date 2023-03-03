@@ -1,6 +1,7 @@
 import { Box, useMediaQuery } from "@mui/material";
 import Navbar from "pages/navbar";
 import User from "pages/widgets/User";
+import Post from "pages/widgets/Post";
 import { useSelector } from "react-redux";
 const Home = () => {
   const user = useSelector((state) => state.user);
@@ -23,7 +24,7 @@ const Home = () => {
           flexBasis={isNonMobileScreens ? "45%" : undefined}
           mt={isNonMobileScreens ? undefined : "2rem"}
         >
-          center
+          <Post imgPath={imgPath} />
         </Box>
         {isNonMobileScreens && <Box flexBasis="25%">right</Box>}
       </Box>
