@@ -38,6 +38,7 @@ export const store = createSlice({
     setLogout: (state) => {
       state.user = null;
       state.token = null;
+      state.posts = [];
     },
   },
 });
