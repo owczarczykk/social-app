@@ -6,7 +6,6 @@ import {
 } from "@mui/icons-material";
 import { Box, Typography, Divider, useTheme } from "@mui/material";
 import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import UserImage from "components/UserImage";
 import FlexBetween from "components/FlexBetween";
@@ -14,22 +13,8 @@ import WidgetWrapper from "components/WidgetWrapper";
 
 const User = ({ userId, imgPath }) => {
   const navigate = useNavigate();
-  const [user, setUser] = useState(null);
-  const token = useSelector((state) => state.token);
+  const user = useSelector((state) => state.user);
   const theme = useTheme();
-
-  const getUser = async () => {
-    const response = await fetch(`http://localhost:3001/user/${userId}`, {
-      method: "GET",
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    const userData = await response.json();
-    setUser(userData);
-  };
-
-  useEffect(() => {
-    getUser();
-  }, []);
 
   if (!user) return;
 
