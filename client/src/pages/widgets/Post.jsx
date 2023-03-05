@@ -34,7 +34,7 @@ const Post = ({ imgPath }) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const token = useSelector((state) => state.token);
-  const fullName = `${user.name} ${user.lastName}`;
+  const placeHolder = `What are you thinking about, ${user.name}?`;
 
   const handlePost = async () => {
     const formData = new FormData();
@@ -60,7 +60,7 @@ const Post = ({ imgPath }) => {
       <FlexBetween gap="1rem">
         <User imgPath={user.imgPath} />
         <InputBase
-          placeholder="What are you thinking about?"
+          placeholder={placeHolder}
           onChange={(e) => setPost(e.target.value)}
           value={post}
           sx={{
