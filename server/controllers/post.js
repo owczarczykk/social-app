@@ -14,7 +14,7 @@ export const createPost = async (req, res) => {
       userImgPath: user.imgPath,
       imgPath,
       likes: {},
-      comments: {},
+      comments: [],
     });
     await newPost.save();
 
@@ -58,6 +58,33 @@ export const likePost = async (req, res) => {
       id,
       { likes: post.likes },
       { new: true }
+    );
+    res.status(200).json(updatedPost);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+export const addComment = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { userId, comment } = req.body;
+    const user = await User.findById(userId);
+
+    const updatedPost = await Post.findByIdAndUpdate(
+      id,
+      {
+        $push: {
+          comments: {
+            userId: userId,
+            name: user.name,
+            lastName: user.lastName,
+            imgPath: user.imgPath,
+            comment: comment,
+          },
+        },
+      },
+      { upsert: true, new: true }
     );
     res.status(200).json(updatedPost);
   } catch (error) {

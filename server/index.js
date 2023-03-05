@@ -70,3 +70,4 @@ app.use("/post", verifyToken, upload.single("picture"), createPost);
 
 app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
+app.use("/posts", postRoutes);
