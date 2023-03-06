@@ -172,14 +172,21 @@ const SinglePostWidget = ({
                     onChange={handleChange}
                     value={values.comment}
                     name="comment"
-                    sx={{ width: "100%", color: theme.palette.background.alt }}
+                    sx={{
+                      width: "100%",
+                      color: theme.palette.background.alt,
+                      "& fieldset": {
+                        borderRadius: "0.5rem 0 0 0.5rem",
+                      },
+                    }}
                   />
 
                   <Button
                     type="submit"
                     sx={{
-                      backgroundColor: theme.palette.primary.main,
-                      color: theme.palette.background.alt,
+                      borderRadius: "0 0.5rem 0.5rem 0 ",
+                      backgroundColor: theme.palette.primary.light,
+                      color: theme.palette.neutral.main,
                       "&:hover": { color: theme.palette.primary.main },
                     }}
                   >

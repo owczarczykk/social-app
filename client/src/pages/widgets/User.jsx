@@ -27,7 +27,7 @@ const User = ({ userId, imgPath }) => {
   };
 
   return (
-    <WidgetWrapper>
+    <WidgetWrapper margin="0 0 1rem 0">
       <FlexBetween
         gap="0.5rem"
         padding="0 0 1rem 0"

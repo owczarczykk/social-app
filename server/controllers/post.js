@@ -34,8 +34,8 @@ export const getPosts = async (req, res) => {
 };
 export const getUserPosts = async (req, res) => {
   try {
-    const { userId } = req.params;
-    const post = await Post.find({ userId }).sort({ $natural: -1 });
+    const { id } = req.params;
+    const post = await Post.find({ userId: id }).sort({ $natural: -1 });
     res.status(200).json(post);
   } catch (error) {
     res.status(404).json({ error: error.message });

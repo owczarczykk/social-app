@@ -33,7 +33,7 @@ const Navbar = () => {
           color="primary"
           onClick={() => navigate("/home")}
           sx={{
-            width: "65%",
+            width: "100%",
             height: "auto",
             "&:hover": {
               color: theme.palette.neutral.light,
@@ -60,7 +60,7 @@ const Navbar = () => {
       </FlexBetween>
       {/* Nav */}
       {isNonMobileScreens ? (
-        <DesktopNav fullName={fullName} />
+        <DesktopNav fullName={fullName} userId={user._id} />
       ) : (
         <IconButton
           onClick={() => setIsMobileMenuToggled(!isMobileMenuToggled)}

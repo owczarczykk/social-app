@@ -18,16 +18,19 @@ import { useDispatch } from "react-redux";
 import { setMode, setLogout } from "store";
 
 import FlexBetween from "components/FlexBetween";
+import { useNavigate } from "react-router-dom";
 
-const DesktopNav = ({ fullName }) => {
+const DesktopNav = ({ fullName, userId }) => {
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const theme = useTheme();
   const neutralLight = theme.palette.neutral.light;
   const dark = theme.palette.neutral.dark;
 
   return (
-    <FlexBetween sx={{ gap: "2rem" }}>
+    <FlexBetween
+      sx={{ gap: "2rem", padding: "0rem 1rem", margin: "0 0 0 1rem" }}
+    >
       <IconButton onClick={() => dispatch(setMode())}>
         {theme.palette.mode === "dark" ? (
           <DarkMode sx={{ fontSize: "25px" }} />
@@ -79,7 +82,9 @@ const DesktopNav = ({ fullName }) => {
           input={<InputBase />}
         >
           <MenuItem value={fullName}>
-            <Typography>{fullName}</Typography>
+            <Typography onClick={() => navigate(`/profile/${userId}`)}>
+              {fullName}
+            </Typography>
           </MenuItem>
           <MenuItem onClick={() => dispatch(setLogout())}>Log Out</MenuItem>
         </Select>
