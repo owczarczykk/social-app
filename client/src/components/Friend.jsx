@@ -33,6 +33,7 @@ const Friend = ({ friendId, name, location, userImgPath }) => {
       <FlexBetween gap="1rem">
         <UserImage imgPath={userImgPath} />
         <Box
+          padding="0.1rem 0.3rem"
           onClick={() => {
             navigate(`/profile/${friendId}`);
             navigate(0);
@@ -62,14 +63,22 @@ const Friend = ({ friendId, name, location, userImgPath }) => {
         (isFriend ? (
           <IconButton
             onClick={() => patchFriends()}
-            sx={{ backgroundColor: theme.palette.primary.light, p: "0.6rem" }}
+            sx={{
+              backgroundColor: theme.palette.primary.light,
+              padding: "0.6rem",
+              margin: "0 0.5rem",
+            }}
           >
             <PersonRemoveOutlined sx={{ color: theme.palette.primary.dark }} />
           </IconButton>
         ) : (
           <IconButton
             onClick={() => patchFriends()}
-            sx={{ backgroundColor: theme.palette.primary.light, p: "0.6rem" }}
+            sx={{
+              backgroundColor: theme.palette.primary.light,
+              padding: "0.6rem",
+              margin: "0 0.5rem",
+            }}
           >
             <PersonAddOutlined sx={{ color: theme.palette.primary.dark }} />
           </IconButton>

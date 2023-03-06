@@ -26,14 +26,14 @@ const Navbar = () => {
       padding="1rem 6%"
       backgroundColor={theme.palette.background.alt}
     >
-      <FlexBetween gap="1.75rem">
+      <FlexBetween gap="1.75rem" width="100%">
         <Typography
           fontWeight="bold"
           fontSize="clamp(1rem, 2rem, 2.25rem)"
           color="primary"
           onClick={() => navigate("/home")}
           sx={{
-            width: "100%",
+            width: "65%",
             height: "auto",
             "&:hover": {
               color: theme.palette.neutral.light,
@@ -49,6 +49,7 @@ const Navbar = () => {
             borderRadius="9px"
             gap="3rem"
             padding="0.1rem 1.5rem"
+            width="100%"
           >
             <InputBase placeholder="Search..." />
             <IconButton>
