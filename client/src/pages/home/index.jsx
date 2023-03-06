@@ -3,6 +3,7 @@ import Navbar from "pages/navbar";
 import User from "pages/widgets/User";
 import Post from "pages/widgets/Post";
 import Posts from "pages/widgets/Posts";
+import FriendList from "pages/widgets/FriendList";
 import { useSelector } from "react-redux";
 const Home = () => {
   const user = useSelector((state) => state.user);
@@ -28,7 +29,11 @@ const Home = () => {
           <Post imgPath={imgPath} />
           <Posts userId={_id} />
         </Box>
-        {isNonMobileScreens && <Box flexBasis="25%">right</Box>}
+        {isNonMobileScreens && (
+          <Box flexBasis="25%">
+            <FriendList userId={_id} />
+          </Box>
+        )}
       </Box>
     </Box>
   );
