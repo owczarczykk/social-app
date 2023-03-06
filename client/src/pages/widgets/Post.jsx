@@ -52,6 +52,7 @@ const Post = ({ imgPath }) => {
     });
     const posts = await response.json();
     dispatch(setPosts({ posts }));
+    setIsImage(false);
     setImage(null);
     setPost("");
   };

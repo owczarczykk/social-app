@@ -1,10 +1,13 @@
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Backdrop from "@mui/material/Backdrop";
+import { CircularProgress } from "@mui/material";
 import { setPosts } from "store";
 import SinglePostWidget from "./SinglePostWidget";
 
 const Posts = ({ userId, isProfile = false }) => {
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(true);
   const posts = useSelector((state) => state.posts);
   const token = useSelector((state) => state.token);
 
@@ -28,11 +31,27 @@ const Posts = ({ userId, isProfile = false }) => {
 
   useEffect(() => {
     if (isProfile) {
-      getUserPostsCallback();
+      getUserPostsCallback().then(() => {
+        setIsLoading(false);
+      });
     } else {
-      getPostsCallback();
+      getPostsCallback().then(() => {
+        setIsLoading(false);
+      });
     }
   }, [getUserPostsCallback, getPostsCallback, isProfile]);
+
+  if (isLoading)
+    return (
+      <Backdrop
+        open={isLoading}
+        onClick={() => {
+          setIsLoading(false);
+        }}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
+    );
 
   return (
     <>
