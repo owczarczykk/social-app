@@ -64,7 +64,8 @@ const DesktopNav = ({ fullName }) => {
           value={fullName}
           sx={{
             backgroundColor: neutralLight,
-            width: "150px",
+            width: "100%",
+            height: "auto",
             borderRadius: "0.25rem",
             padding: "0.25rem 1rem",
             "& .MuiSvgIcon-root": {

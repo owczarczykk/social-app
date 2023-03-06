@@ -14,20 +14,18 @@ import DesktopNav from "./DesktopNav";
 import MobileNav from "./MobileNav";
 
 const Navbar = () => {
+  const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
   const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
   const navigate = useNavigate();
-  const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
-
   const theme = useTheme();
-  const neutralLight = theme.palette.neutral.light;
-  const primaryLight = theme.palette.primary.light;
-  const alt = theme.palette.background.alt;
-
   const user = useSelector((state) => state.user);
   const fullName = `${user.name} ${user.lastName}`;
 
   return (
-    <FlexBetween padding="1rem 6%" backgroundColor={alt}>
+    <FlexBetween
+      padding="1rem 6%"
+      backgroundColor={theme.palette.background.alt}
+    >
       <FlexBetween gap="1.75rem">
         <Typography
           fontWeight="bold"
@@ -35,8 +33,10 @@ const Navbar = () => {
           color="primary"
           onClick={() => navigate("/home")}
           sx={{
+            width: "100%",
+            height: "auto",
             "&:hover": {
-              color: primaryLight,
+              color: theme.palette.neutral.light,
               cursor: "pointer",
             },
           }}
@@ -45,7 +45,7 @@ const Navbar = () => {
         </Typography>
         {isNonMobileScreens && (
           <FlexBetween
-            backgroundColor={neutralLight}
+            backgroundColor={theme.palette.neutral.light}
             borderRadius="9px"
             gap="3rem"
             padding="0.1rem 1.5rem"
