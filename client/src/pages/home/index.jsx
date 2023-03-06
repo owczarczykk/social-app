@@ -4,6 +4,7 @@ import User from "pages/widgets/User";
 import Post from "pages/widgets/Post";
 import Posts from "pages/widgets/Posts";
 import FriendList from "pages/widgets/FriendList";
+import Advert from "pages/widgets/Advert";
 import { useSelector } from "react-redux";
 const Home = () => {
   const user = useSelector((state) => state.user);
@@ -31,6 +32,7 @@ const Home = () => {
         </Box>
         {isNonMobileScreens && (
           <Box flexBasis="25%">
+            <Advert />
             <FriendList userId={_id} />
           </Box>
         )}
