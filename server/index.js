@@ -48,26 +48,33 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // MongoDB
-const PORT = 3001;
-mongoose.set("strictQuery", false);
+
 mongoose
-  .connect(process.env.MONGO_DB, {
+  .connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
   .then(() => {
-    app.listen(PORT, () => {
-      console.log("Success + port:", PORT);
+    app.listen(process.env.PORT, () => {
+      console.log("Success + port:", process.env.PORT);
     });
   })
   .catch((error) => {
     console.log(error);
   });
 
+if (process.env.NODE_ENV === "production") {
+  app.use("/user", userRoutes);
+  app.use("/posts", postRoutes);
+  app.use(express.static("client/build"));
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  });
+}
+
 // Routes
 app.post("/auth/register", upload.single("picture"), register);
-app.use("/post", verifyToken, upload.single("picture"), createPost);
-
+app.post("/post", upload.single("picture"), createPost);
 app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
 app.use("/posts", postRoutes);
