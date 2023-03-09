@@ -61,8 +61,8 @@ const SinglePost = ({
       },
       body: JSON.stringify({ userId: user._id }),
     });
-    const data = await response.json();
-    dispatch(setPost({ post: data }));
+    const post = await response.json();
+    dispatch(setPost({ post: post }));
   };
 
   const addComment = async (values, onSubmitProps) => {

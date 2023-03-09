@@ -25,8 +25,8 @@ const FriendList = ({ userId }) => {
       },
     });
 
-    const data = await response.json();
-    dispatch(setFriends({ friends: data }));
+    const friends = await response.json();
+    dispatch(setFriends({ friends: friends }));
   }, [dispatch, token, userId]);
 
   useEffect(() => {

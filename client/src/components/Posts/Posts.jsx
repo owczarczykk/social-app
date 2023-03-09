@@ -17,8 +17,8 @@ const Posts = ({ userId, isProfile = false }) => {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     });
-    const responseJSON = await response.json();
-    dispatch(setPosts({ posts: responseJSON }));
+    const posts = await response.json();
+    dispatch(setPosts({ posts: posts }));
   }, [dispatch, token]);
 
   const getUserPostsCallback = useCallback(async () => {
@@ -26,8 +26,8 @@ const Posts = ({ userId, isProfile = false }) => {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     });
-    const data = await response.json();
-    dispatch(setPosts({ posts: data }));
+    const posts = await response.json();
+    dispatch(setPosts({ posts: posts }));
   }, [dispatch, token, userId]);
 
   useEffect(() => {

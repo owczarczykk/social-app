@@ -25,9 +25,8 @@ const Friend = ({ friendId, name, location, userImgPath }) => {
       headers: { Authorization: `Bearer ${token}` },
       "Content-Type": "application/json",
     });
-    const responseJson = await response.json();
-
-    dispatch(setFriends({ friends: responseJson }));
+    const friends = await response.json();
+    dispatch(setFriends({ friends: friends }));
   };
 
   return (
