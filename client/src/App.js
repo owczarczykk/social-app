@@ -6,7 +6,6 @@ import { useMemo } from "react";
 import { themeConfig } from "./theme";
 import Home from "pages/home";
 import Login from "pages/login";
-import Profile from "pages/profile";
 
 function App() {
   const mode = useSelector((state) => state.mode);
