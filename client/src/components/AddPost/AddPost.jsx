@@ -23,7 +23,7 @@ import Dropzone from "react-dropzone";
 import User from "components/UserImage/UserImage";
 import WidgetWrapper from "components/UI/WidgetWrapper";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setPosts } from "store";
 import styles from "./styles";
 
@@ -63,7 +63,7 @@ const AddPost = ({ imgPath, user, token }) => {
     setPost("");
   };
   return (
-    <WidgetWrapper>
+    <WidgetWrapper margin="0 0 1rem 0">
       <FlexBetween sx={classes.inputBase}>
         <User imgPath={user.imgPath} />
         <InputBase

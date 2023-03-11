@@ -4,6 +4,7 @@ const initialState = {
   mode: "dark",
   user: null,
   token: null,
+  friends: [],
   posts: [],
 };
 
@@ -28,6 +29,9 @@ export const store = createSlice({
         console.error("user friends does not exist");
       }
     },
+    setGlobalFriends: (state, action) => {
+      state.friends = action.payload.friends;
+    },
     setMode: (state) => {
       state.mode = state.mode === "dark" ? "light" : "dark";
     },
@@ -39,9 +43,17 @@ export const store = createSlice({
       state.user = null;
       state.token = null;
       state.posts = [];
+      state.friends = [];
     },
   },
 });
-export const { setMode, setLogin, setLogout, setFriends, setPosts, setPost } =
-  store.actions;
+export const {
+  setMode,
+  setLogin,
+  setLogout,
+  setFriends,
+  setPosts,
+  setPost,
+  setGlobalFriends,
+} = store.actions;
 export default store.reducer;

@@ -16,14 +16,15 @@ import {
 import { Formik } from "formik";
 import { PropTypes } from "prop-types";
 import FlexBetween from "components/UI/FlexBetween";
-import Friend from "components/Friend/Friend";
+
 import WidgetWrapper from "components/UI/WidgetWrapper";
 import UserImage from "components/UserImage/UserImage";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setPost } from "store";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, lazy, Suspense } from "react";
 import styles from "./styles";
+const Friend = lazy(() => import("components/Friend/Friend"));
+
 const SinglePost = ({
   postId,
   postUserId,
@@ -34,22 +35,22 @@ const SinglePost = ({
   userImgPath,
   likes,
   comments,
+  loggedInUser,
+  token,
 }) => {
   const theme = useTheme();
   const { classes } = styles(theme);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [isCommentClicked, setIsCommentClicked] = useState(false);
-  const token = useSelector((state) => state.token);
-  const user = useSelector((state) => state.user);
-  const isLiked = Boolean(likes[user._id]);
+
+  const isLiked = Boolean(likes[loggedInUser._id]);
   const baseUrl = "http://localhost:3001/";
   const initialValues = {
     comment: "",
-    userId: user._id,
-    name: user.name,
-    lastName: user.lastName,
-    imgPath: user.imgPath,
+    userId: loggedInUser._id,
+    name: loggedInUser.name,
+    lastName: loggedInUser.lastName,
+    imgPath: loggedInUser.imgPath,
   };
 
   const patchLike = async () => {
@@ -59,7 +60,7 @@ const SinglePost = ({
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ userId: user._id }),
+      body: JSON.stringify({ userId: loggedInUser._id }),
     });
     const post = await response.json();
     dispatch(setPost({ post: post }));
@@ -74,10 +75,9 @@ const SinglePost = ({
       },
       body: JSON.stringify(values),
     });
-    const data = await response.json();
+    const post = await response.json();
     onSubmitProps.resetForm();
-    dispatch(setPost({ post: data }));
-    navigate("/home");
+    dispatch(setPost({ post: post }));
   };
 
   const handleFormSubmit = async (values, onSubmitProps) => {
@@ -86,12 +86,16 @@ const SinglePost = ({
 
   return (
     <WidgetWrapper sx={classes.root}>
-      <Friend
-        friendId={postUserId}
-        name={name}
-        location={location}
-        userImgPath={userImgPath}
-      />
+      <Suspense fallback={<div>Loading...</div>}>
+        <Friend
+          friendId={postUserId}
+          name={name}
+          location={location}
+          userImgPath={userImgPath}
+          loggedInUser={loggedInUser}
+          token={token}
+        />
+      </Suspense>
       <Typography sx={classes.root_description}>{description}</Typography>
       {imgPath && (
         <img
@@ -190,5 +194,7 @@ SinglePost.propTypes = {
   userImgPath: PropTypes.string,
   likes: PropTypes.objectOf(PropTypes.bool),
   comments: PropTypes.arrayOf(PropTypes.object),
+  loggedInUser: PropTypes.object,
+  token: PropTypes.string,
 };
 export default SinglePost;

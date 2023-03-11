@@ -1,19 +1,18 @@
-import { useEffect, useCallback, useState } from "react";
-import { useDispatch, useSelector, connect } from "react-redux";
+import { useEffect, useCallback, useState, Suspense, lazy } from "react";
+import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import Backdrop from "@mui/material/Backdrop";
 import { CircularProgress } from "@mui/material";
 import { setPosts } from "store";
-import SinglePost from "../SinglePost/SinglePost";
+const SinglePost = lazy(() => import("components/SinglePost"));
 
-const Posts = ({ userId, isProfile = false }) => {
-  const token = useSelector((state) => state.token);
-  const posts = useSelector((state) => state.posts);
+const Posts = ({ userId, loggedInUser, posts, token, isProfile = false }) => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
   const baseUrl = "http://localhost:3001/";
+
   const getPostsCallback = useCallback(async () => {
-    const response = await fetch("http://localhost:3001/posts", {
+    const response = await fetch(`${baseUrl}posts`, {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -22,7 +21,7 @@ const Posts = ({ userId, isProfile = false }) => {
   }, [dispatch, token]);
 
   const getUserPostsCallback = useCallback(async () => {
-    const response = await fetch(`${baseUrl}/posts/${userId}`, {
+    const response = await fetch(`${baseUrl}posts/${userId}`, {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -69,18 +68,35 @@ const Posts = ({ userId, isProfile = false }) => {
           likes,
           comments,
         }) => (
-          <SinglePost
-            key={_id}
-            postId={_id}
-            postUserId={userId}
-            name={`${name} ${lastName}`}
-            description={description}
-            location={location}
-            imgPath={imgPath}
-            userImgPath={userImgPath}
-            likes={likes}
-            comments={comments}
-          />
+          <Suspense
+            key={`${_id} ${userId} ${likes} ${lastName}`}
+            fallback={
+              <Backdrop
+                open={isLoading}
+                onClick={() => {
+                  setIsLoading(false);
+                }}
+              >
+                <CircularProgress color="inherit" />
+              </Backdrop>
+            }
+          >
+            <SinglePost
+              key={`$ ${userId}  ${likes}{_id} ${lastName}`}
+              postId={_id}
+              postUserId={userId}
+              name={`${name} ${lastName}`}
+              description={description}
+              location={location}
+              imgPath={imgPath}
+              userImgPath={userImgPath}
+              likes={likes}
+              comments={comments}
+              loggedInUser={loggedInUser}
+              isProfile={isProfile}
+              token={token}
+            />
+          </Suspense>
         )
       )}
     </>
@@ -90,6 +106,9 @@ const Posts = ({ userId, isProfile = false }) => {
 Posts.propTypes = {
   userId: PropTypes.string,
   isProfile: PropTypes.bool,
+  loggedInUser: PropTypes.object,
+  posts: PropTypes.arrayOf(PropTypes.object),
+  token: PropTypes.string,
 };
 
 export default Posts;

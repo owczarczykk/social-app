@@ -2,7 +2,7 @@ const styles = (theme) => {
   return {
     classes: {
       root: {
-        margin: "1rem 0",
+        margin: "0 0 1rem 0",
       },
       root_description: {
         padding: "1rem 0",
