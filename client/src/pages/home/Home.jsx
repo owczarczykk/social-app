@@ -11,7 +11,6 @@ const User = lazy(() => import("components/User"));
 const FriendList = lazy(() => import("components/FriendList"));
 const Home = () => {
   const loggedInUser = useSelector((state) => state.user);
-  const token = useSelector((state) => state.token);
   const posts = useSelector((state) => state.posts);
   const friendsState = useSelector((state) => state.friends);
   const { _id, imgPath, name, lastName, friends, location, occupation } =
@@ -26,7 +25,7 @@ const Home = () => {
       <Navbar />
       <Box gap="1rem" justifyContent="space-between" sx={classes.root}>
         <Box sx={classes.root_leftSection}>
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<div></div>}>
             <User
               userId={_id}
               imgPath={imgPath}
@@ -40,26 +39,20 @@ const Home = () => {
         </Box>
 
         <Box sx={classes.root_center}>
-          <Suspense fallback={<div>Loading...</div>}>
-            <AddPost imgPath={imgPath} user={loggedInUser} token={token} />
-            <Posts
-              idUser={_id}
-              loggedInUser={loggedInUser}
-              posts={posts}
-              token={token}
-            />
+          <Suspense fallback={<div></div>}>
+            <AddPost imgPath={imgPath} user={loggedInUser} />
+            <Posts idUser={_id} loggedInUser={loggedInUser} posts={posts} />
           </Suspense>
         </Box>
 
         {isNonMobileScreens && (
           <Box sx={classes.root_rightSection}>
             <Advert />
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<div></div>}>
               <FriendList
                 userId={_id}
                 loggedInUser={loggedInUser}
                 friends={friendsState}
-                token={token}
               />
             </Suspense>
           </Box>

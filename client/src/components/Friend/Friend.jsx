@@ -1,6 +1,6 @@
 import { PersonAddOutlined, PersonRemoveOutlined } from "@mui/icons-material";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { setFriends, setGlobalFriends } from "store";
@@ -15,18 +15,18 @@ const Friend = ({
   userImgPath,
   loggedInUser,
   userId,
-  token,
   isProfile = false,
 }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const theme = useTheme();
+  const token = window.localStorage.getItem("token");
+  const friends = useSelector((state) => state.friends);
   const { classes } = styles(theme);
-  const isFriend = loggedInUser.friends.find(
-    (friend) => friend._id === friendId
-  );
+
   const isMe = loggedInUser._id === friendId;
-  const baseUrl = "http://localhost:3001/";
+  let isFriend = friends.find(({ _id }) => _id === friendId);
+  const baseUrl = "https://social-app1.herokuapp.com/";
 
   const patchFriends = async () => {
     const response = await fetch(
@@ -60,8 +60,7 @@ const Friend = ({
         <UserImage imgPath={userImgPath} />
         <Box
           onClick={() => {
-            navigate(`/profile/${friendId}`);
-            navigate(0);
+            navigate(`/user/${friendId}`);
           }}
           sx={classes.root__box}
         >
@@ -72,7 +71,7 @@ const Friend = ({
 
       {!isMe &&
         !isProfile &&
-        (isFriend ? (
+        (!!isFriend ? (
           <IconButton
             onClick={() => (isProfile ? patchFriendsProfile() : patchFriends())}
             sx={classes.icons}
@@ -92,7 +91,6 @@ const Friend = ({
 };
 Friend.propTypes = {
   friendId: PropTypes.string,
-  token: PropTypes.string,
   name: PropTypes.string,
   location: PropTypes.string,
   userImgPath: PropTypes.string,

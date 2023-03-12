@@ -38,12 +38,14 @@ export const store = createSlice({
     setLogin: (state, action) => {
       state.user = action.payload.user;
       state.token = action.payload.token;
+      window.localStorage.setItem("token", action.payload.token);
     },
     setLogout: (state) => {
       state.user = null;
       state.token = null;
       state.posts = [];
       state.friends = [];
+      window.localStorage.clear();
     },
   },
 });

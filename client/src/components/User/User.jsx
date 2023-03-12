@@ -28,7 +28,7 @@ const User = ({
     <WidgetWrapper sx={classes.root}>
       <FlexBetween
         sx={classes.root__firstRow}
-        onClick={() => navigate(`/profile/${userId}`)}
+        onClick={() => navigate(`/user/${userId}`)}
       >
         <FlexBetween gap="1rem">
           <UserImage imgPath={imgPath} />

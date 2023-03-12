@@ -6,10 +6,11 @@ import { CircularProgress } from "@mui/material";
 import { setPosts } from "store";
 const SinglePost = lazy(() => import("components/SinglePost"));
 
-const Posts = ({ userId, loggedInUser, posts, token, isProfile = false }) => {
+const Posts = ({ userId, loggedInUser, posts, isProfile = false }) => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
-  const baseUrl = "http://localhost:3001/";
+  const token = window.localStorage.getItem("token");
+  const baseUrl = "https://social-app1.herokuapp.com/";
 
   const getPostsCallback = useCallback(async () => {
     const response = await fetch(`${baseUrl}posts`, {
@@ -94,7 +95,6 @@ const Posts = ({ userId, loggedInUser, posts, token, isProfile = false }) => {
               comments={comments}
               loggedInUser={loggedInUser}
               isProfile={isProfile}
-              token={token}
             />
           </Suspense>
         )

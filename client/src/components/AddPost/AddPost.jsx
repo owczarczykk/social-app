@@ -27,16 +27,17 @@ import { useDispatch } from "react-redux";
 import { setPosts } from "store";
 import styles from "./styles";
 
-const AddPost = ({ imgPath, user, token }) => {
+const AddPost = ({ imgPath, user }) => {
   const [isImage, setIsImage] = useState(false);
   const [post, setPost] = useState("");
   const [image, setImage] = useState(null);
   const isNonMobileScreens = useMediaQuery("(min-width: 600px)");
+  const token = window.localStorage.getItem("token");
   const theme = useTheme();
   const { classes } = styles(theme);
   const dispatch = useDispatch();
   const placeHolder = `What are you thinking about, ${user.name}?`;
-  const baseUrl = "http://localhost:3001/";
+  const baseUrl = "https://social-app1.herokuapp.com/";
 
   const handlePost = async () => {
     const formData = new FormData();
@@ -167,6 +168,5 @@ const AddPost = ({ imgPath, user, token }) => {
 AddPost.propTypes = {
   imgPath: PropTypes.string,
   user: PropTypes.object,
-  token: PropTypes.string,
 };
 export default AddPost;

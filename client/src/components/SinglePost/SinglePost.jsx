@@ -36,15 +36,16 @@ const SinglePost = ({
   likes,
   comments,
   loggedInUser,
-  token,
+  isProfile,
 }) => {
   const theme = useTheme();
   const { classes } = styles(theme);
   const dispatch = useDispatch();
+  const token = window.localStorage.getItem("token");
   const [isCommentClicked, setIsCommentClicked] = useState(false);
 
   const isLiked = Boolean(likes[loggedInUser._id]);
-  const baseUrl = "http://localhost:3001/";
+  const baseUrl = "https://social-app1.herokuapp.com/";
   const initialValues = {
     comment: "",
     userId: loggedInUser._id,
@@ -86,14 +87,14 @@ const SinglePost = ({
 
   return (
     <WidgetWrapper sx={classes.root}>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<div></div>}>
         <Friend
           friendId={postUserId}
           name={name}
           location={location}
           userImgPath={userImgPath}
           loggedInUser={loggedInUser}
-          token={token}
+          isProfile={isProfile}
         />
       </Suspense>
       <Typography sx={classes.root_description}>{description}</Typography>
@@ -195,6 +196,6 @@ SinglePost.propTypes = {
   likes: PropTypes.objectOf(PropTypes.bool),
   comments: PropTypes.arrayOf(PropTypes.object),
   loggedInUser: PropTypes.object,
-  token: PropTypes.string,
+  isProfile: PropTypes.bool,
 };
 export default SinglePost;

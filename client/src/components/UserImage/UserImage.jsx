@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 import PropTypes from "prop-types";
-const baseUrl = "http://localhost:3001/";
+const baseUrl = "https://social-app1.herokuapp.com/";
 const UserImage = ({ imgPath, size = "60px" }) => {
   return (
     <Box width={size} height={size}>
