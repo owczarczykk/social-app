@@ -46,7 +46,7 @@ const DesktopNav = ({ fullName, userId, mode }) => {
           input={<InputBase />}
         >
           <MenuItem value={fullName}>
-            <Typography onClick={() => navigate(`/profile/${userId}`)}>
+            <Typography onClick={() => navigate(`/user/${userId}`)}>
               {fullName}
             </Typography>
           </MenuItem>

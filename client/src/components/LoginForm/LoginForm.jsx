@@ -57,10 +57,10 @@ const LoginForm = () => {
   const { classes } = styles(theme, isNonMobileScreens);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const baseUrl = "http://localhost:3001/";
+
   const isLogin = pageType === "login";
   const isRegister = pageType === "register";
-
+  const baseUrl = "https://social-app1.herokuapp.com/";
   const register = async (values, onSubmitProps) => {
     const formData = new FormData();
     for (let value in values) {
@@ -83,7 +83,7 @@ const LoginForm = () => {
   };
 
   const login = async (values, onSubmitProps) => {
-    const loggedInResponse = await fetch("http://localhost:3001/auth/login", {
+    const loggedInResponse = await fetch(baseUrl + "auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(values),

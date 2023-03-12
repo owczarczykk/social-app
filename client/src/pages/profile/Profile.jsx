@@ -1,10 +1,9 @@
 import { Suspense, lazy } from "react";
 import { Box, useMediaQuery, useTheme } from "@mui/material";
 import Navbar from "pages/navbar";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import styles from "./styles";
-import { PropTypes } from "prop-types";
 import { useParams } from "react-router";
 const Posts = lazy(() => import("components/Posts"));
 const User = lazy(() => import("components/User"));
@@ -12,16 +11,17 @@ const FriendList = lazy(() => import("components/FriendList"));
 const Profile = () => {
   const [user, setUser] = useState(null);
   const { userIdProfile } = useParams();
-  const token = useSelector((state) => state.token);
+  const token = window.localStorage.getItem("token");
   const posts = useSelector((state) => state.posts);
 
   const loggedInUser = useSelector((state) => state.user);
   const friends = useSelector((state) => state.friends);
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
   const theme = useTheme();
+
   const { classes } = styles(theme, isNonMobileScreens);
-  const baseUrl = "http://localhost:3001/";
-  const getUser = useCallback(async () => {
+  const baseUrl = "https://social-app1.herokuapp.com/";
+  const getUser = async () => {
     const response = await fetch(`${baseUrl}user/${userIdProfile}`, {
       method: "GET",
       headers: {
@@ -30,7 +30,7 @@ const Profile = () => {
     });
     const user = await response.json();
     setUser(user);
-  }, [token, userIdProfile]);
+  };
   useEffect(() => {
     getUser();
   }, [getUser]);
@@ -43,7 +43,7 @@ const Profile = () => {
       <Navbar />
       <Box sx={classes.root}>
         <Box sx={classes.root_leftSection}>
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<div></div>}>
             <User
               userId={userIdProfile}
               imgPath={imgPath}
@@ -58,18 +58,16 @@ const Profile = () => {
               loggedInUser={loggedInUser}
               isProfile={true}
               friends={friends}
-              token={token}
             />
           </Suspense>
         </Box>
         <Box sx={classes.root_center}>
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<div></div>}>
             <Posts
               userId={userIdProfile}
               isProfile={true}
               loggedInUser={loggedInUser}
               posts={posts}
-              token={token}
             />
           </Suspense>
         </Box>
@@ -77,7 +75,5 @@ const Profile = () => {
     </Box>
   );
 };
-Profile.propTypes = {
-  isProfile: PropTypes.bool,
-};
+
 export default Profile;

@@ -7,19 +7,14 @@ import { setGlobalFriends } from "store";
 import Backdrop from "@mui/material/Backdrop";
 import styles from "./styles";
 const Friend = lazy(() => import("components/Friend"));
-const FriendList = ({
-  userId,
-  token,
-  friends,
-  loggedInUser,
-  isProfile = false,
-}) => {
+const FriendList = ({ userId, friends, loggedInUser, isProfile = false }) => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
   const theme = useTheme();
+  const token = window.localStorage.getItem("token");
   const { classes } = styles(theme);
   const isFriendsEmpty = Boolean(friends.length === 0);
-  const baseUrl = "http://localhost:3001/";
+  const baseUrl = "https://social-app1.herokuapp.com/";
   const getFriendsCallback = useCallback(async () => {
     const response = await fetch(`${baseUrl}user/${userId}/friends`, {
       headers: {
@@ -29,6 +24,7 @@ const FriendList = ({
     });
 
     const friends = await response.json();
+
     dispatch(setGlobalFriends({ friends: friends }));
   }, [dispatch, token, userId]);
 
@@ -56,10 +52,7 @@ const FriendList = ({
       <Box sx={classes.box}>
         {!isFriendsEmpty && !isLoading ? (
           friends.map(({ _id, name, lastName, location, imgPath }) => (
-            <Suspense
-              key={`${_id} ${imgPath} `}
-              fallback={<div>Loading...</div>}
-            >
+            <Suspense key={`${_id} ${imgPath} `} fallback={<div></div>}>
               <Friend
                 key={`${_id}${name}${lastName}`}
                 friendId={_id}
@@ -83,7 +76,6 @@ FriendList.propTypes = {
   userId: PropTypes.string,
   loggedInUser: PropTypes.object,
   isProfile: PropTypes.bool,
-  token: PropTypes.string,
   friends: PropTypes.arrayOf(PropTypes.object),
 };
 export default FriendList;
